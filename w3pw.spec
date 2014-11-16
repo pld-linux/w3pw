@@ -10,6 +10,7 @@ Source0:	http://downloads.sourceforge.net/w3pw/%{name}-%{version}.tar.gz
 # Source0-md5:	df718531136f3314b8582fbdd4e80791
 Source1:	apache.conf
 Source2:	lighttpd.conf
+Source3:	init.sql
 URL:		http://w3pw.sourceforge.net/
 BuildRequires:	rpm-php-pearprov >= 4.4.2-11
 BuildRequires:	rpmbuild(macros) >= 1.268
@@ -54,13 +55,7 @@ Features:
 %setup -q
 
 # simple sql to create and load db schema
-cat << 'EOF' > init.sql
-CREATE DATABASE w3pw;
-USE w3pw;
-SOURCE w3pw.sql;
-
-UPDATE main set pw=SHA1("secret");
-EOF
+cp -p %{SOURCE3} .
 
 # we moved files around
 %{__sed} -i -e 's,include/config.php,%{_sysconfdir}/config.php,' *.php
