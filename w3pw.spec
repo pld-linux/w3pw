@@ -1,5 +1,5 @@
-%include	/usr/lib/rpm/macros.php
 %define		php_min_version 5.0.0
+%include	/usr/lib/rpm/macros.php
 Summary:	Web-based password wallet manager
 Name:		w3pw
 Version:	1.40
@@ -11,6 +11,7 @@ Source0:	http://downloads.sourceforge.net/w3pw/%{name}-%{version}.tar.gz
 Source1:	apache.conf
 Source2:	lighttpd.conf
 Source3:	init.sql
+Patch0:		authpassword.patch
 URL:		http://w3pw.sourceforge.net/
 BuildRequires:	rpm-php-pearprov >= 4.4.2-11
 BuildRequires:	rpmbuild(macros) >= 1.268
@@ -53,6 +54,9 @@ Features:
 
 %prep
 %setup -q
+mv index.php login.php
+mv main.php index.php
+%patch0 -p1
 
 # simple sql to create and load db schema
 cp -p %{SOURCE3} .
