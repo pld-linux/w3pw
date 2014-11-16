@@ -6,7 +6,7 @@ Version:	1.40
 Release:	0.11
 License:	GPL v2
 Group:		Applications/WWW
-Source0:	http://downloads.sourceforge.net/project/w3pw/w3pw/%{version}/%{name}-%{version}.tar.gz
+Source0:	http://downloads.sourceforge.net/w3pw/%{name}-%{version}.tar.gz
 # Source0-md5:	df718531136f3314b8582fbdd4e80791
 Source1:	apache.conf
 Source2:	lighttpd.conf
@@ -14,10 +14,10 @@ URL:		http://w3pw.sourceforge.net/
 BuildRequires:	rpm-php-pearprov >= 4.4.2-11
 BuildRequires:	rpmbuild(macros) >= 1.268
 BuildRequires:	sed >= 4.0
-Requires:	php-common >= 4:%{php_min_version}
-Requires:	php-mcrypt
-Requires:	php-mysql
-Requires:	php-session
+Requires:	php(core) >= %{php_min_version}
+Requires:	php(mcrypt)
+Requires:	php(mysql)
+Requires:	php(session)
 Requires:	webapps
 Requires:	webserver(access)
 Requires:	webserver(alias)
