@@ -3,11 +3,13 @@
 Summary:	Web-based password wallet manager
 Name:		w3pw
 Version:	1.40
-Release:	0.10
+Release:	0.11
 License:	GPL v2
 Group:		Applications/WWW
 Source0:	http://downloads.sourceforge.net/project/w3pw/w3pw/%{version}/%{name}-%{version}.tar.gz
 # Source0-md5:	df718531136f3314b8582fbdd4e80791
+Source1:	apache.conf
+Source2:	lighttpd.conf
 URL:		http://w3pw.sourceforge.net/
 BuildRequires:	rpm-php-pearprov >= 4.4.2-11
 BuildRequires:	rpmbuild(macros) >= 1.268
@@ -51,19 +53,6 @@ Features:
 %prep
 %setup -q
 
-cat > apache.conf <<'EOF'
-Alias /%{name} %{_appdir}/htdocs
-<Directory %{_appdir}/htdocs>
-	Allow from all
-</Directory>
-EOF
-
-cat > lighttpd.conf <<'EOF'
-alias.url += (
-    "/%{name}" => "%{_appdir}/htdocs",
-)
-EOF
-
 # simple sql to create and load db schema
 cat << 'EOF' > init.sql
 CREATE DATABASE w3pw;
@@ -92,13 +81,13 @@ EOF
 %install
 rm -rf $RPM_BUILD_ROOT
 install -d $RPM_BUILD_ROOT{%{_sysconfdir},%{_appdir}/{htdocs,sql}}
-cp -a apache.conf $RPM_BUILD_ROOT%{_sysconfdir}/apache.conf
-cp -a apache.conf $RPM_BUILD_ROOT%{_sysconfdir}/httpd.conf
-cp -a lighttpd.conf $RPM_BUILD_ROOT%{_sysconfdir}/lighttpd.conf
+cp -p %{SOURCE1} $RPM_BUILD_ROOT%{_sysconfdir}/apache.conf
+cp -p %{SOURCE2} $RPM_BUILD_ROOT%{_sysconfdir}/lighttpd.conf
+cp -p $RPM_BUILD_ROOT%{_sysconfdir}/{apache,httpd}.conf
 
-cp -a *.html *.php $RPM_BUILD_ROOT%{_appdir}/htdocs
 cp -a include $RPM_BUILD_ROOT%{_appdir}
-cp -a *.sql $RPM_BUILD_ROOT%{_appdir}/sql
+cp -p *.html *.php $RPM_BUILD_ROOT%{_appdir}/htdocs
+cp -p *.sql $RPM_BUILD_ROOT%{_appdir}/sql
 mv $RPM_BUILD_ROOT{%{_appdir}/include,%{_sysconfdir}}/config.php
 
 %triggerin -- apache1 < 1.3.37-3, apache1-base
