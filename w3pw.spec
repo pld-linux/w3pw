@@ -3,7 +3,7 @@
 Summary:	Web-based password wallet manager
 Name:		w3pw
 Version:	1.40
-Release:	0.11
+Release:	0.14
 License:	GPL v2
 Group:		Applications/WWW
 Source0:	http://downloads.sourceforge.net/w3pw/%{name}-%{version}.tar.gz
@@ -54,8 +54,6 @@ Features:
 
 %prep
 %setup -q
-mv index.php login.php
-mv main.php index.php
 %patch0 -p1
 
 # simple sql to create and load db schema
