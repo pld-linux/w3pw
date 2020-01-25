@@ -1,5 +1,4 @@
 %define		php_min_version 5.0.0
-%include	/usr/lib/rpm/macros.php
 Summary:	Web-based password wallet manager
 Name:		w3pw
 Version:	1.40
